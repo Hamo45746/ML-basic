@@ -22,7 +22,6 @@ POTENTIAL_FEATURES = [
 
 
 def main():
-    # Load Data
     dataframe = pd.read_csv(DATA_FILE_PATH)
     # Drop rows if NaN
     dataframe.dropna(

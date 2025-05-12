@@ -5,7 +5,8 @@ import torch
 import numpy as np
 import random
 from torch.utils.tensorboard import SummaryWriter
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import ConfusionMatrixDisplay
+from typing import Optional, List
 
 
 def set_seeds(seed_value: int = 1):
@@ -15,6 +16,7 @@ def set_seeds(seed_value: int = 1):
     torch.manual_seed(seed_value)
     if torch.cuda.is_available():
         torch.cuda.manual_seed(seed_value)
+
 
 def create_tensorboard_writer(
         base_log_dir: str,
@@ -35,3 +37,27 @@ def create_tensorboard_writer(
     os.makedirs(log_dir, exist_ok=True)
     print(f"TensorBoard logs will be saved to: {log_dir}")
     return SummaryWriter(log_dir=log_dir)  
+
+
+def plot_confusion_mat(
+        cm: np.ndarray,
+        class_names: List[str],
+        title: str = 'Confusion Matrix',
+        save_path: Optional[str] = None
+        ):
+    """Plots and saves the confusion matrix."""
+    disp = ConfusionMatrixDisplay(
+        confusion_matrix=cm,
+        display_labels=class_names
+        )
+    
+    fig, ax = plt.subplots(figsize=(8, 6))
+    disp.plot(ax=ax, cmap=plt.cm.Blues)
+    ax.set_title(title)
+    
+    if save_path:
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        plt.savefig(save_path)
+        
+    plt.show()
+    plt.close(fig)
