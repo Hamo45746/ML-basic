@@ -16,8 +16,8 @@ class FullyConnectedLayer(nn.Module):
             'linear'.
         weight_init (str): Weight initialisation method. Defaults to 'xavier'.
         dropout (float): Dropout rate. Defaults to 0.0.
-        batch_norm (bool, optional): Use batch normalisation? Default to False.
-        layer_norm (bool, optional): Use layer normalisation? Default to False.
+        batch_norm (bool, optional): Use batch norm? Default to False.
+        layer_norm (bool, optional): Use layer norm? Default to False.
 
     REFERENCES:
     (0) I previously created this class for a project submitted for 
@@ -39,16 +39,17 @@ class FullyConnectedLayer(nn.Module):
         A Style-Based Generator Architecture for Generative Adversarial 
         Networks. arXiv. https://arxiv.org/abs/1812.04948
     """
-    def __init__(self, 
-                 in_features: int,
-                 out_features: int,
-                 bias: bool = True, 
-                 activation: str = 'linear', 
-                 weight_init: str = 'xavier',
-                 dropout: float = 0.0, 
-                 batch_norm: bool = False,
-                 layer_norm: bool = False
-                 ) -> None:
+    def __init__(
+            self,
+            in_features: int,
+            out_features: int,
+            bias: bool = True, 
+            activation: str = 'linear', 
+            weight_init: str = 'xavier',
+            dropout: float = 0.0, 
+            batch_norm: bool = False,
+            layer_norm: bool = False
+            ) -> None:
         super().__init__()
         self.in_features = in_features
         self.out_features = out_features
@@ -77,7 +78,7 @@ class FullyConnectedLayer(nn.Module):
         elif weight_init.lower() == 'orthogonal':
             nn.init.orthogonal_(self.weight)
         else:
-            raise ValueError(f"Unsupported weight initialisation: {weight_init}")
+            raise ValueError(f"Unsupported weight init: {weight_init}")
 
         if self.bias is not None:
             fan_in, _ = nn.init._calculate_fan_in_and_fan_out(self.weight)
@@ -125,7 +126,6 @@ class FullyConnectedLayer(nn.Module):
         return x
 
 
-# Model Definition
 class MLP(nn.Module):
     """Flexible multi-layer perceotron."""
     def __init__(self,
@@ -149,7 +149,7 @@ class MLP(nn.Module):
             dropout_rate (float): Dropout rate for hidden layers.
             use_batch_norm (bool): Apply batch norm to hidden layers.
             use_layer_norm (bool): Apply layer norm to hidden layers.
-            is_binary (bool): If True, output dim is 1 (for BCEWithLogitsLoss).
+            is_binary (bool): If True, output dim = 1 (for BCEWithLogitsLoss).
         """
         super().__init__()
         self.layers = nn.ModuleList()
@@ -176,13 +176,13 @@ class MLP(nn.Module):
             FullyConnectedLayer(
                 in_features=current_dim,
                 out_features=output_dim,
-                activation='linear', # Output layer usually linear (logits)
+                activation='linear',
                 weight_init=weight_init,
-                dropout=0.0, # No dropout usually
-                batch_norm=False, # No BN usually
-                layer_norm=False # No LN usually
+                dropout=0.0,
+                batch_norm=False,
+                layer_norm=False
                 )
-            )
+                ) # Unholy I know. Still follows PEP 8 tho.
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Forward pass through all layers."""

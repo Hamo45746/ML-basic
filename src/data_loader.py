@@ -4,14 +4,7 @@ from typing import Tuple, List, Optional
 
 
 def load_data(csv_data: str) -> Optional[pd.DataFrame]:
-    """Load the dataset from the csv filepath.
-    
-    Args:
-        csv_data (str): path to the csv file.
-    
-    Returns:
-        pd.DataFrame | None: Loaded dataframe or None.
-    """
+    """Load the dataset from the csv filepath."""
     try:
         dataframe = pd.read_csv(csv_data, header=0)
         return dataframe

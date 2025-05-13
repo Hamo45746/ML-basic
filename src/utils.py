@@ -59,5 +59,5 @@ def plot_confusion_mat(
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
         plt.savefig(save_path)
         
-    plt.show()
+    # plt.show()
     plt.close(fig)
