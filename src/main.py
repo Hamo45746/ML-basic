@@ -116,7 +116,7 @@ def run_single_experiment(
         lr=config['lr']
         )
     
-    writer_group = config.get("experiment_group_name", "HyperparamTuning_TestMode") #TODO: correct line len
+    writer_group = config.get("experiment_group_name", "Hyperparams_TestMode")
     writer = create_tensorboard_writer(
         TENSORBOARD_LOG_DIR,
         writer_group,
@@ -199,12 +199,12 @@ if __name__ == "__main__":
     base_config = {
         "top_n_features": 9,
         "batch_size": 64,
-        "epochs": 20,
+        "epochs": 30,
         "optimiser": "adam",
         "test_split_size": 0.2,
         "val_split_size": 0.15,
         "use_class_weights": True,
-        "experiment_group_name": "TestMode_HyperparamSearch"
+        "experiment_group_name": "run2"
         }
 
     experiments_configs = [
@@ -218,27 +218,27 @@ if __name__ == "__main__":
             },
         
         # Vary depth/breadth
-        {
-            **base_config,
-            "id": "deeper_narrower",
-            "hidden_units": [8, 8, 8],
-            "activation_fn": "relu",
-            "lr": 0.001
-            },
-        {
-            **base_config,
-            "id": "wider_shallower",
-            "hidden_units": [32, 32],
-            "activation_fn": "relu",
-            "lr": 0.001
-            },
-        {
-            **base_config,
-            "id": "single_wide_layer",
-            "hidden_units": [64],
-            "activation_fn": "relu",
-            "lr": 0.001
-            },
+        # {
+        #     **base_config,
+        #     "id": "deeper_narrower",
+        #     "hidden_units": [8, 8, 8],
+        #     "activation_fn": "relu",
+        #     "lr": 0.001
+        #     },
+        # {
+        #     **base_config,
+        #     "id": "wider_shallower",
+        #     "hidden_units": [32, 32],
+        #     "activation_fn": "relu",
+        #     "lr": 0.001
+        #     },
+        # {
+        #     **base_config,
+        #     "id": "single_wide_layer",
+        #     "hidden_units": [64],
+        #     "activation_fn": "relu",
+        #     "lr": 0.001
+        #     },
 
         # Vary activations
         {
@@ -260,48 +260,76 @@ if __name__ == "__main__":
             "activation_fn": "silu",
             "lr": 0.001
             },
+        {
+            **base_config,
+            "id": "activation_leaky_relu",
+            "hidden_units": [16, 16],
+            "activation_fn": "leaky_relu",
+            "lr": 0.001
+            },
+        {
+            **base_config,
+            "id": "activation_gelu",
+            "hidden_units": [16, 16],
+            "activation_fn": "gelu",
+            "lr": 0.001
+            },
+        {
+            **base_config,
+            "id": "activation_sigmoid",
+            "hidden_units": [16, 16],
+            "activation_fn": "sigmoid",
+            "lr": 0.001
+            },
+        {
+            **base_config,
+            "id": "activation_linear",
+            "hidden_units": [16, 16],
+            "activation_fn": "linear",
+            "lr": 0.001
+            },
 
         # Vary learning rate
-        {
-            **base_config,
-            "id": "lr_high",
-            "hidden_units": [16, 16], 
-            "activation_fn": "relu",
-            "lr": 0.01
-            },
-        {
-            **base_config,
-            "id": "lr_low",
-            "hidden_units": [16, 16],
-            "activation_fn": "relu",
-            "lr": 0.0001
-            },
+        # {
+        #     **base_config,
+        #     "id": "lr_high",
+        #     "hidden_units": [16, 16], 
+        #     "activation_fn": "relu",
+        #     "lr": 0.01
+        #     },
+        # {
+        #     **base_config,
+        #     "id": "lr_low",
+        #     "hidden_units": [16, 16],
+        #     "activation_fn": "relu",
+        #     "lr": 0.0001
+        #     },
         
         # Vary num features
-        {
-            **base_config,
-            "id": "features_top5",
-            "top_n_features": 5,
-            "hidden_units": [16, 16],
-            "activation_fn": "relu",
-            "lr": 0.001
-            },
-        {
-            **base_config,
-            "id": "features_top15",
-            "top_n_features": 15,
-            "hidden_units": [16, 16],
-            "activation_fn": "relu",
-            "lr": 0.001
-            },
-        {
-            **base_config,
-            "id": "features_all34",
-            "top_n_features": 34,
-            "hidden_units": [16, 16],
-            "activation_fn": "relu",
-            "lr": 0.001
-            },
+        # {
+        #     **base_config,
+        #     "id": "features_top5",
+        #     "top_n_features": 5,
+        #     "hidden_units": [16, 16],
+        #     "activation_fn": "relu",
+        #     "lr": 0.001
+        #     },
+        # {
+        #     **base_config,
+        #     "id": "features_top15",
+        #     "top_n_features": 15,
+        #     "hidden_units": [16, 16],
+        #     "activation_fn": "relu",
+        #     "lr": 0.001
+        #     },
+        # {
+        #     **base_config,
+        #     "id": "features_all34",
+        #     "top_n_features": 34,
+        #     "hidden_units": [16, 16],
+        #     "activation_fn": "relu",
+        #     "lr": 0.001
+        #     },
             ]
 
     for idx, config in enumerate(experiments_configs):
