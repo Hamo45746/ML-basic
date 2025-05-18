@@ -4,7 +4,7 @@ import os
 import torch
 import numpy as np
 import random
-from torch.utils.tensorboard import SummaryWriter
+from torch.utils.tensorboard.writer import SummaryWriter
 from sklearn.metrics import ConfusionMatrixDisplay
 from typing import Optional, List
 
@@ -34,7 +34,7 @@ def create_tensorboard_writer(
         SummaryWriter: TensorBoard SummaryWriter.
     """
     log_dir = os.path.join(base_log_dir, experiment_group, run_name)
-    os.makedirs(log_dir, exist_ok=True)
+    os.makedirs(log_dir, exist_ok=False) # Don't overwrite existing logs
     print(f"TensorBoard logs will be saved to: {log_dir}")
     return SummaryWriter(log_dir=log_dir)  
 
@@ -52,7 +52,7 @@ def plot_confusion_mat(
         )
     
     fig, ax = plt.subplots(figsize=(8, 6))
-    disp.plot(ax=ax, cmap=plt.cm.Blues)
+    disp.plot(ax=ax)
     ax.set_title(title)
     
     if save_path:

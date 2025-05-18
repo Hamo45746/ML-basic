@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 #from torch.cuda.amp import GradScaler, autocast#Unsure if use
-from torch.utils.tensorboard import SummaryWriter
+from torch.utils.tensorboard.writer import SummaryWriter
 from tqdm.auto import tqdm
 from typing import Tuple
 import numpy as np
@@ -21,7 +21,7 @@ def define_optimiser(
         model: nn.Module,
         optimiser_name: str = 'adam',
         lr: float = 0.001
-        ) -> optim.Optimizer:
+        ) -> optim.Optimizer | None:
     """Create optimiser - Adam or SGD."""
     if optimiser_name.lower() == 'adam':
         return optim.Adam(model.parameters(), lr=lr)

@@ -21,7 +21,7 @@ def select_features(
     """Selects feature and data columns from pd.dataframe."""
     keep_cols = [col for col in feature_cols if col in dataframe.columns]
     if len(keep_cols) != len(feature_cols):
-        print(f"Some feature columns not found")
+        print(f"Some feature cols not found")
         print(f"Requested: {feature_cols}, Found: {keep_cols}")
     
     features = dataframe[keep_cols]
