@@ -72,6 +72,6 @@ def stratified_split(
         random_state=random_state,
         stratify=y_temp_pool,
         shuffle=True
-    )
+        )
 
     return X_train, X_val, X_test, y_train, y_val, y_test

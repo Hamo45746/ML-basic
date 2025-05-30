@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.utils.class_weight import compute_class_weight
-from sklearn.metrics import confusion_matrix, classification_report, ConfusionMatrixDisplay
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import torch
 import torch.nn as nn
 import numpy as np
@@ -199,12 +199,12 @@ if __name__ == "__main__":
     base_config = {
         "top_n_features": 9,
         "batch_size": 64,
-        "epochs": 25,
+        "epochs": 30,
         "optimiser": "adam",
         "test_split_size": 0.2,
         "val_split_size": 0.15,
         "use_class_weights": True,
-        "experiment_group_name": "run3"
+        "experiment_group_name": "run4"
         }
 
     experiments_configs = [
@@ -217,119 +217,119 @@ if __name__ == "__main__":
             "lr": 0.001
             },
         
-        # Vary depth/breadth
+        # Vary depth/breadth and LR to test interactions
         {
             **base_config,
-            "id": "deeper_narrower",
+            "id": "444Arch_HighLR",
             "hidden_units": [4, 4, 4],
-            "activation_fn": "relu",
-            "lr": 0.001
-            },
-        {
-            **base_config,
-            "id": "wider_shallower",
-            "hidden_units": [16, 16],
-            "activation_fn": "relu",
-            "lr": 0.001
-            },
-        {
-            **base_config,
-            "id": "single_wide_layer",
-            "hidden_units": [32],
-            "activation_fn": "relu",
-            "lr": 0.001
-            },
-
-        # Vary activations
-        {
-            **base_config,
-            "id": "activation_elu",
-            "hidden_units": [8, 8],
-            "activation_fn": "elu", "lr": 0.001
-            },
-        {
-            **base_config,
-            "id": "activation_tanh",
-            "hidden_units": [8, 8],
-            "activation_fn": "tanh",
-            "lr": 0.001},
-        {
-            **base_config,
-            "id": "activation_silu",
-            "hidden_units": [8, 8],
-            "activation_fn": "silu",
-            "lr": 0.001
-            },
-        {
-            **base_config,
-            "id": "activation_leaky_relu",
-            "hidden_units": [8, 8],
-            "activation_fn": "leaky_relu",
-            "lr": 0.001
-            },
-        {
-            **base_config,
-            "id": "activation_gelu",
-            "hidden_units": [8, 8],
-            "activation_fn": "gelu",
-            "lr": 0.001
-            },
-        {
-            **base_config,
-            "id": "activation_sigmoid",
-            "hidden_units": [8, 8],
-            "activation_fn": "sigmoid",
-            "lr": 0.001
-            },
-        {
-            **base_config,
-            "id": "activation_linear",
-            "hidden_units": [8, 8],
-            "activation_fn": "linear",
-            "lr": 0.001
-            },
-
-        # Vary learning rate
-        {
-            **base_config,
-            "id": "lr_high",
-            "hidden_units": [8, 8], 
             "activation_fn": "relu",
             "lr": 0.01
             },
         {
             **base_config,
-            "id": "lr_low",
-            "hidden_units": [8, 8],
+            "id": "32Arch_HighLR",
+            "hidden_units": [32],
+            "activation_fn": "relu",
+            "lr": 0.01
+            },
+        {
+            **base_config,
+            "id": "444Arch_LowLR",
+            "hidden_units": [4, 4, 4],
             "activation_fn": "relu",
             "lr": 0.0001
             },
+
+        # Vary activations
+        # {
+        #     **base_config,
+        #     "id": "activation_elu",
+        #     "hidden_units": [8, 8],
+        #     "activation_fn": "elu", "lr": 0.001
+        #     },
+        # {
+        #     **base_config,
+        #     "id": "activation_tanh",
+        #     "hidden_units": [8, 8],
+        #     "activation_fn": "tanh",
+        #     "lr": 0.001},
+        # {
+        #     **base_config,
+        #     "id": "activation_silu",
+        #     "hidden_units": [8, 8],
+        #     "activation_fn": "silu",
+        #     "lr": 0.001
+        #     },
+        # {
+        #     **base_config,
+        #     "id": "activation_leaky_relu",
+        #     "hidden_units": [8, 8],
+        #     "activation_fn": "leaky_relu",
+        #     "lr": 0.001
+        #     },
+        # {
+        #     **base_config,
+        #     "id": "activation_gelu",
+        #     "hidden_units": [8, 8],
+        #     "activation_fn": "gelu",
+        #     "lr": 0.001
+        #     },
+        # {
+        #     **base_config,
+        #     "id": "activation_sigmoid",
+        #     "hidden_units": [8, 8],
+        #     "activation_fn": "sigmoid",
+        #     "lr": 0.001
+        #     },
+        # {
+        #     **base_config,
+        #     "id": "activation_linear",
+        #     "hidden_units": [8, 8],
+        #     "activation_fn": "linear",
+        #     "lr": 0.001
+        #     },
+
+        # Vary learning rate
+        # {
+        #     **base_config,
+        #     "id": "lr_high",
+        #     "hidden_units": [8, 8], 
+        #     "activation_fn": "relu",
+        #     "lr": 0.01
+        #     },
+        # {
+        #     **base_config,
+        #     "id": "lr_low",
+        #     "hidden_units": [8, 8],
+        #     "activation_fn": "relu",
+        #     "lr": 0.0001
+        #     },
         
         # Vary num features
-        {
-            **base_config,
-            "id": "features_top5",
-            "top_n_features": 5,
-            "hidden_units": [8, 8],
-            "activation_fn": "relu",
-            "lr": 0.001
-            },
-        {
-            **base_config,
-            "id": "features_top15",
-            "top_n_features": 15,
-            "hidden_units": [8, 8],
-            "activation_fn": "relu",
-            "lr": 0.001
-            },
-        {
-            **base_config,
-            "id": "features_all34",
-            "top_n_features": 34,
-            "hidden_units": [8, 8],
-            "activation_fn": "relu",
-            "lr": 0.001
-            },
+        # {
+        #     **base_config,
+        #     "id": "features_top5",
+        #     "top_n_features": 5,
+        #     "hidden_units": [8, 8],
+        #     "activation_fn": "relu",
+        #     "lr": 0.001
+        #     },
+        # {
+        #     **base_config,
+        #     "id": "features_top15",
+        #     "top_n_features": 15,
+        #     "hidden_units": [8, 8],
+        #     "activation_fn": "relu",
+        #     "lr": 0.001
+        #     },
+        # {
+        #     **base_config,
+        #     "id": "features_all34",
+        #     "top_n_features": 34,
+        #     "hidden_units": [8, 8],
+        #     "activation_fn": "relu",
+        #     "lr": 0.001
+        #     },
     ]
 
     for idx, config in enumerate(experiments_configs):
